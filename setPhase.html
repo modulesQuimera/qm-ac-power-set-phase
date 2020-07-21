@@ -1,7 +1,7 @@
 <script type="text/javascript">
     RED.nodes.registerType('setPhase',{
         category: 'AC Power Module',
-        color: '#ADD8E6',
+        color: '#FA8072',
         defaults: {
             name:{
                 value: ""
@@ -13,6 +13,7 @@
             phase_value:{
                 value:""
             },
+            slot:{value:"", required:true}
             // serial:{
             //     type: "serial-template",
             //     required: true
@@ -20,63 +21,86 @@
         },
         inputs:1,
         outputs:1,
-        icon: "font-awesome/fa-bars",
-        label: function() { return this.name || "setPhase" },
-        paletteLabel: "setPhase",
+        icon: "AC_Power.svg",
+        label: function() { return this.name? "Set Phase - " + this.name: "Set Phase" },
+        paletteLabel: "Set Phase",
 
-        oneditprepare: function() {
-            var ports = []
-            var self = this
+        // oneditprepare: function() {
+        //     // var ports = []
+        //     // var self = this
 
-            $.getJSON('getValue',function(data) {
-                ports = data  
-                var portType = "custom";
-                for (var i in ports) {
-                    if (self.phase_value == ports[i].value) {
-                        portType = self.phase_value;
-                    }
-                }
-                $("#node-config-input-port").typedInput({
-                    default: self.phase_value,
-                    types:ports
-                });
-            })
-            $("#node-input-mapeamento").val($("#node-input-mapeamento option:first").val());
-        },
-        oneditsave: function() {
-            var mytype = $("#node-config-input-port").typedInput('type');
+        //     // $.getJSON('getValue',function(data) {
+        //     //     ports = data  
+        //     //     var portType = "custom";
+        //     //     for (var i in ports) {
+        //     //         if (self.phase_value == ports[i].value) {
+        //     //             portType = self.phase_value;
+        //     //         }
+        //     //     }
+        //     //     $("#node-config-input-port").typedInput({
+        //     //         default: self.phase_value,
+        //     //         types:ports
+        //     //     });
+        //     // })
+        //     // $("#node-input-mapeamento").val($("#node-input-mapeamento option:first").val());
+        // },
+        // oneditsave: function() {
+        //     var mytype = $("#node-config-input-port").typedInput('type');
 
-            $("#node-config-input-port").typedInput('value', mytype);
-            this.phase_value = $("#node-config-input-port").typedInput('value');
-        }
+        //     $("#node-config-input-port").typedInput('value', mytype);
+        //     this.phase_value = $("#node-config-input-port").typedInput('value');
+        // }
 
     });
 </script>
 
 
+
 <style>
 
-    select#node-input-mapeamento {
-        width: 100%;
-        display: none;
-    }
-
-    a#node-input-lookup-mapeamento {
-    position: absolute;
-    right: -30px !important;
-    top: 0px;
-    }
-
     label{
-        width: 25% !important;
+        width: 50% !important;
+        margin-bottom: 2px !important;
     }
+
+    .columm{
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+    hr {
+    width: 40% !important;
+    float: left !important;
+    }
+
+    .hr-div-setPhase{
+        display: flex !important;
+        justify-content: space-between !important;
+        margin-top: 400px !important;
+    }
+
+    .optional{
+        height: max-content !important;
+        margin-top: 10px !important;
+    }
+
+    .descript{
+        text-align: center;
+    }
+
 </style>
 
 
+
 <script type="text/html" data-template-name="setPhase">
-    <div class="form-row">
-        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
-        <input type="text" id="node-input-name" placeholder="Name" >
+    <div class="form-row columm">
+        <strong class="descript">
+            Sets the phase value to be used
+     </strong>
+     </div>
+     <div class="form-row columm">
+        <label  for="node-input-slot"><i class="fa fa-sliders"></i> Slot</label>
+        <input type="number" id="node-input-slot" style="width:20%;">
     </div>
 
     <!-- <div class="form-row node-input-serial">
@@ -84,13 +108,24 @@
         <input type="text" id="node-input-serial">
     </div> -->
 
-    <div class="form-row node-input-phase_value">
+    <div class="form-row node-input-phase_value columm">
         <label for="node-input-phase_value"><i class="fa fa-sign-out"></i> Phase Value</label>
         <input  id="node-input-phase_value" type="number" required="required"   min="0" max="360" style="width: 30%;">
+    </div>
+
+    <div class="hr-div-setPhase">
+        <hr>
+        <span class="optional">Optional</span>
+        <hr>
+    </div>
+
+    <div class="form-row columm">
+        <label style="width: 50% !important;" for="node-input-name" ><i class="fa fa-tag"></i> Component Nickname</label>
+        <input type="text" id="node-input-name" placeholder="Name">
     </div>
 
 </script>
 
 <script type="text/html" data-help-name="setPhase">
-    <p>Working on it...</p>
+    <p>Sets the phase value to be used</p>
 </script>
