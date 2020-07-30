@@ -3,21 +3,37 @@
         category: 'AC Power Module',
         color: '#FA8072',
         defaults: {
-            name:{
-                value: ""
-            },
-            mapeamento:{ value:"", type: "mapping-set-phase" },
-            val:{
-                value:"false"
-            },
-            phase_value:{
-                value:""
-            },
-            slot:{value:"", required:true}
-            // serial:{
-            //     type: "serial-template",
-            //     required: true
-            // },
+            name:{value: ""},
+            slot:{value:"", required:true},
+            val:{value:"false"},
+            phase_value:{value:""},
+            
+            qtdSetPhase:{value:0},
+            controle:{value:0},
+            phase_value1:{value:""},
+            phase_value2:{value:""},
+            phase_value3:{value:""},
+            phase_value4:{value:""},
+            phase_value5:{value:""},
+            phase_value6:{value:""},
+            phase_value7:{value:""},
+            phase_value8:{value:""},
+            phase_value9:{value:""},
+            phase_value10:{value:""},
+            phase_value11:{value:""},
+            phase_value12:{value:""},
+            phase_value13:{value:""},
+            phase_value14:{value:""},
+            phase_value15:{value:""},
+            phase_value16:{value:""},
+            phase_value17:{value:""},
+            phase_value18:{value:""},
+            phase_value19:{value:""},
+            phase_value20:{value:""},
+            phase_value21:{value:""},
+            phase_value22:{value:""},
+            phase_value23:{value:""},
+            phase_value24:{value:""},
         },
         inputs:1,
         outputs:1,
@@ -25,47 +41,79 @@
         label: function() { return this.name? "Set Phase - " + this.name: "Set Phase" },
         paletteLabel: "Set Phase",
 
-        // oneditprepare: function() {
-        //     // var ports = []
-        //     // var self = this
+        oneditprepare: function() {
+            var self = this;
+            self.controle = self.qtdSetPhase;
 
-        //     // $.getJSON('getValue',function(data) {
-        //     //     ports = data  
-        //     //     var portType = "custom";
-        //     //     for (var i in ports) {
-        //     //         if (self.phase_value == ports[i].value) {
-        //     //             portType = self.phase_value;
-        //     //         }
-        //     //     }
-        //     //     $("#node-config-input-port").typedInput({
-        //     //         default: self.phase_value,
-        //     //         types:ports
-        //     //     });
-        //     // })
-        //     // $("#node-input-mapeamento").val($("#node-input-mapeamento option:first").val());
-        // },
-        // oneditsave: function() {
-        //     var mytype = $("#node-config-input-port").typedInput('type');
+            for(var i=1; i<=self.controle; i++){
+                $(".setPhase"+i).show();
+            }
+            if(!self.controle || self.controle < 0){
+                self.controle = 0;
+            }
+            $("#addSetPhase").click(function(){
+                self.controle = self.controle+1 <= 24 ? self.controle + 1 : 24;
 
-        //     $("#node-config-input-port").typedInput('value', mytype);
-        //     this.phase_value = $("#node-config-input-port").typedInput('value');
-        // }
-
+                $(".setPhase"+self.controle).show();
+                console.log(self.controle);
+            });
+            $("#remSetPhase").click(function(){
+                $(".setPhase"+self.controle).hide();
+                self.controle = self.controle-1 >= 0 ? self.controle - 1 : 0;
+                console.log(self.controle);
+            });
+        },
+        oneditsave: function() {
+            this.qtdSetPhase = this.controle;
+        }
     });
 </script>
 
-
-
 <style>
-
     label{
-        width: 50% !important;
+        width: 100% !important;
         margin-bottom: 2px !important;
     }
-
     .columm{
         display: flex !important;
         flex-direction: column !important;
+    }
+    hr {
+        width: 40% !important;
+        float: left !important;
+    }
+    .hr-div-setPhase{
+        display: flex !important;
+        justify-content: space-between !important;
+        /* margin-top: 400px !important; */
+    }
+    .optional{
+        height: max-content !important;
+        margin-top: 10px !important;
+    }
+    .descript{
+        text-align: center;
+    }
+    .columm-50{
+        display: flex !important;
+        flex-direction: column !important;
+        width: 50% !important;
+        float: left !important;
+    }
+
+    .columm-30{
+        display: flex !important;
+        flex-direction: column !important;
+        width: 30% !important;
+        float: left !important;
+    }
+
+
+    .columm-70{
+        display: flex !important;
+        flex-direction: column !important;
+        width: 70% !important;
+        float: left !important;
     }
 
     hr {
@@ -73,10 +121,10 @@
     float: left !important;
     }
 
-    .hr-div-setPhase{
+    .hr-div-get{
         display: flex !important;
         justify-content: space-between !important;
-        margin-top: 400px !important;
+        margin-top: 250px !important;
     }
 
     .optional{
@@ -88,42 +136,338 @@
         text-align: center;
     }
 
+
+    .descript-div{
+        max-width: 444px !important;
+    }
+
+    span.red-ui-typedInput-type-label {
+    /* background: chartreuse; */
+    /* display: block; */
+    width: 250px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    }
+
+    .btn-aln{
+        display: flex !important;
+        flex-direction: row-reverse !important;
+        /* padding-left: 30px; */
+        align-content: center;
+        align-items: flex-end;
+    }
 </style>
 
-
-
 <script type="text/html" data-template-name="setPhase">
-    <div class="form-row columm">
+    <div class="form-row columm descript-div">
         <strong class="descript">
             Sets the phase value to be used
-     </strong>
-     </div>
+        </strong>
+    </div>
+    <div style=" position: relative; display:flex;">
+        <div class="form-row columm-70">
+            <label style="width: 50% !important;" for="node-input-name" ><i class="fa fa-tag"></i> Identification Note</label>
+            <input type="text" id="node-input-name" placeholder="Name" style="width: 100%">
+        </div>
+        <div class="form-row columm-30" style="align-items: flex-end !important;">
+            <label style="width: max-content !important; padding-right: 24px;"><i class="fa fa-list-ul"></i> Item</label>
+            <div class="form-row btn-aln" >
+                <a id="addSetPhase" class="red-ui-button" ><i class="fa fa-plus"></i></a>
+                <a id="remSetPhase" class="red-ui-button" style="margin-right: 5px;" ><i class="fa fa-minus"></i></a>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="form-row" style="display:flex; justify-content: space-between;">
+        <button  class="btn-uni btn-add"  type="button" id="addSetPhase"> <i class="fa fa-plus" style="margin-right: 5px; font-size: 15px;"></i></button>
+        <button class="btn-uni btn-remove"   type="button" id="remSetPhase"> <i class="fa fa-trash" style="margin-right: 10px; font-size: 15px;"></i></button>
+    </div> -->
+    <div class="hr-div-setPhase">
+        <hr>
+        <span class="optional">Phase 0</span>
+        <hr>
+    </div>
      <div class="form-row columm">
         <label  for="node-input-slot"><i class="fa fa-sliders"></i> Slot</label>
-        <input type="number" id="node-input-slot" style="width:20%;">
+        <input type="number" id="node-input-slot" style="width:30%;">
     </div>
-
-    <!-- <div class="form-row node-input-serial">
-        <label for="node-input-serial"><i class="fa fa-random"></i> Serial Port</label>
-        <input type="text" id="node-input-serial">
-    </div> -->
-
     <div class="form-row node-input-phase_value columm">
         <label for="node-input-phase_value"><i class="fa fa-sign-out"></i> Phase Value</label>
         <input  id="node-input-phase_value" type="number" required="required"   min="0" max="360" style="width: 30%;">
     </div>
-
-    <div class="hr-div-setPhase">
+    <div class="setPhase1" style="display: none;">
+        <div class="hr-div-setPhase">
+            <hr>
+            <span class="optional">Phase 1</span>
+            <hr>
+        </div>
+        <div class="form-row node-input-phase_value columm">
+            <label for="node-input-phase_value1"><i class="fa fa-sign-out"></i> Phase Value</label>
+            <input  id="node-input-phase_value1" type="number" required="required"   min="0" max="360" style="width: 30%;">
+        </div>
+    </div>
+    <div class="setPhase2" style="display: none;">
+        <div class="hr-div-setPhase">
+            <hr>
+            <span class="optional">Phase 2</span>
+            <hr>
+        </div>
+        <div class="form-row node-input-phase_value columm">
+            <label for="node-input-phase_value2"><i class="fa fa-sign-out"></i> Phase Value</label>
+            <input  id="node-input-phase_value2" type="number" required="required"   min="0" max="360" style="width: 30%;">
+        </div>
+    </div>
+    <div class="setPhase3" style="display: none;">
+        <div class="hr-div-setPhase">
+            <hr>
+            <span class="optional">Phase 3</span>
+            <hr>
+        </div>
+        <div class="form-row node-input-phase_value columm">
+            <label for="node-input-phase_value3"><i class="fa fa-sign-out"></i> Phase Value</label>
+            <input  id="node-input-phase_value3" type="number" required="required"   min="0" max="360" style="width: 30%;">
+        </div>
+    </div>
+    <div class="setPhase4" style="display: none;">
+        <div class="hr-div-setPhase">
+            <hr>
+            <span class="optional">Phase 4</span>
+            <hr>
+        </div>
+        <div class="form-row node-input-phase_value columm">
+            <label for="node-input-phase_value4"><i class="fa fa-sign-out"></i> Phase Value</label>
+            <input  id="node-input-phase_value4" type="number" required="required"   min="0" max="360" style="width: 30%;">
+        </div>
+    </div>
+    <div class="setPhase5" style="display: none;">
+        <div class="hr-div-setPhase">
+            <hr>
+            <span class="optional">Phase 5</span>
+            <hr>
+        </div>
+        <div class="form-row node-input-phase_value columm">
+            <label for="node-input-phase_value5"><i class="fa fa-sign-out"></i> Phase Value</label>
+            <input  id="node-input-phase_value5" type="number" required="required"   min="0" max="360" style="width: 30%;">
+        </div>
+    </div>
+    <div class="setPhase6" style="display: none;">
+        <div class="hr-div-setPhase">
+            <hr>
+            <span class="optional">Phase 6</span>
+            <hr>
+        </div>
+        <div class="form-row node-input-phase_value columm">
+            <label for="node-input-phase_value6"><i class="fa fa-sign-out"></i> Phase Value</label>
+            <input  id="node-input-phase_value6" type="number" required="required"   min="0" max="360" style="width: 30%;">
+        </div>
+    </div>
+    <div class="setPhase7" style="display: none;">
+        <div class="hr-div-setPhase">
+            <hr>
+            <span class="optional">Phase 7</span>
+            <hr>
+        </div>
+        <div class="form-row node-input-phase_value columm">
+            <label for="node-input-phase_value7"><i class="fa fa-sign-out"></i> Phase Value</label>
+            <input  id="node-input-phase_value7" type="number" required="required"   min="0" max="360" style="width: 30%;">
+        </div>
+    </div>
+    <div class="setPhase8" style="display: none;">
+        <div class="hr-div-setPhase">
+            <hr>
+            <span class="optional">Phase 8</span>
+            <hr>
+        </div>
+        <div class="form-row node-input-phase_value columm">
+            <label for="node-input-phase_value8"><i class="fa fa-sign-out"></i> Phase Value</label>
+            <input  id="node-input-phase_value8" type="number" required="required"   min="0" max="360" style="width: 30%;">
+        </div>
+    </div>
+    <div class="setPhase9" style="display: none;">
+        <div class="hr-div-setPhase">
+            <hr>
+            <span class="optional">Phase 9</span>
+            <hr>
+        </div>
+        <div class="form-row node-input-phase_value columm">
+            <label for="node-input-phase_value9"><i class="fa fa-sign-out"></i> Phase Value</label>
+            <input  id="node-input-phase_value9" type="number" required="required"   min="0" max="360" style="width: 30%;">
+        </div>
+    </div>
+    <div class="setPhase10" style="display: none;">
+        <div class="hr-div-setPhase">
+            <hr>
+            <span class="optional">Phase 10</span>
+            <hr>
+        </div>
+        <div class="form-row node-input-phase_value columm">
+            <label for="node-input-phase_value10"><i class="fa fa-sign-out"></i> Phase Value</label>
+            <input  id="node-input-phase_value10" type="number" required="required"   min="0" max="360" style="width: 30%;">
+        </div>
+    </div>
+    <div class="setPhase11" style="display: none;">
+        <div class="hr-div-setPhase">
+            <hr>
+            <span class="optional">Phase 11</span>
+            <hr>
+        </div>
+        <div class="form-row node-input-phase_value columm">
+            <label for="node-input-phase_value11"><i class="fa fa-sign-out"></i> Phase Value</label>
+            <input  id="node-input-phase_value11" type="number" required="required"   min="0" max="360" style="width: 30%;">
+        </div>
+    </div>
+    <div class="setPhase12" style="display: none;">
+        <div class="hr-div-setPhase">
+            <hr>
+            <span class="optional">Phase 12</span>
+            <hr>
+        </div>
+        <div class="form-row node-input-phase_value columm">
+            <label for="node-input-phase_value12"><i class="fa fa-sign-out"></i> Phase Value</label>
+            <input  id="node-input-phase_value12" type="number" required="required"   min="0" max="360" style="width: 30%;">
+        </div>
+    </div>
+    <div class="setPhase13" style="display: none;">
+        <div class="hr-div-setPhase">
+            <hr>
+            <span class="optional">Phase 13</span>
+            <hr>
+        </div>
+        <div class="form-row node-input-phase_value columm">
+            <label for="node-input-phase_value13"><i class="fa fa-sign-out"></i> Phase Value</label>
+            <input  id="node-input-phase_value13" type="number" required="required"   min="0" max="360" style="width: 30%;">
+        </div>
+    </div>
+    <div class="setPhase14" style="display: none;">
+        <div class="hr-div-setPhase">
+            <hr>
+            <span class="optional">Phase 14</span>
+            <hr>
+        </div>
+        <div class="form-row node-input-phase_value columm">
+            <label for="node-input-phase_value14"><i class="fa fa-sign-out"></i> Phase Value</label>
+            <input  id="node-input-phase_value14" type="number" required="required"   min="0" max="360" style="width: 30%;">
+        </div>
+    </div>
+    <div class="setPhase15" style="display: none;">
+        <div class="hr-div-setPhase">
+            <hr>
+            <span class="optional">Phase 15</span>
+            <hr>
+        </div>
+        <div class="form-row node-input-phase_value columm">
+            <label for="node-input-phase_value15"><i class="fa fa-sign-out"></i> Phase Value</label>
+            <input  id="node-input-phase_value15" type="number" required="required"   min="0" max="360" style="width: 30%;">
+        </div>
+    </div>
+    <div class="setPhase16" style="display: none;">
+        <div class="hr-div-setPhase">
+            <hr>
+            <span class="optional">Phase 16</span>
+            <hr>
+        </div>
+        <div class="form-row node-input-phase_value columm">
+            <label for="node-input-phase_value16"><i class="fa fa-sign-out"></i> Phase Value</label>
+            <input  id="node-input-phase_value16" type="number" required="required"   min="0" max="360" style="width: 30%;">
+        </div>
+    </div>
+    <div class="setPhase17" style="display: none;">
+        <div class="hr-div-setPhase">
+            <hr>
+            <span class="optional">Phase 17</span>
+            <hr>
+        </div>
+        <div class="form-row node-input-phase_value columm">
+            <label for="node-input-phase_value17"><i class="fa fa-sign-out"></i> Phase Value</label>
+            <input  id="node-input-phase_value17" type="number" required="required"   min="0" max="360" style="width: 30%;">
+        </div>
+    </div>
+    <div class="setPhase18" style="display: none;">
+        <div class="hr-div-setPhase">
+            <hr>
+            <span class="optional">Phase 18</span>
+            <hr>
+        </div>
+        <div class="form-row node-input-phase_value columm">
+            <label for="node-input-phase_value18"><i class="fa fa-sign-out"></i> Phase Value</label>
+            <input  id="node-input-phase_value18" type="number" required="required"   min="0" max="360" style="width: 30%;">
+        </div>
+    </div>
+    <div class="setPhase19" style="display: none;">
+        <div class="hr-div-setPhase">
+            <hr>
+            <span class="optional">Phase 19</span>
+            <hr>
+        </div>
+        <div class="form-row node-input-phase_value columm">
+            <label for="node-input-phase_value19"><i class="fa fa-sign-out"></i> Phase Value</label>
+            <input  id="node-input-phase_value19" type="number" required="required"   min="0" max="360" style="width: 30%;">
+        </div>
+    </div>
+    <div class="setPhase20" style="display: none;">
+        <div class="hr-div-setPhase">
+            <hr>
+            <span class="optional">Phase 20</span>
+            <hr>
+        </div>
+        <div class="form-row node-input-phase_value columm">
+            <label for="node-input-phase_value20"><i class="fa fa-sign-out"></i> Phase Value</label>
+            <input  id="node-input-phase_value20" type="number" required="required"   min="0" max="360" style="width: 30%;">
+        </div>
+    </div>
+    <div class="setPhase21" style="display: none;">
+        <div class="hr-div-setPhase">
+            <hr>
+            <span class="optional">Phase 21</span>
+            <hr>
+        </div>
+        <div class="form-row node-input-phase_value columm">
+            <label for="node-input-phase_value21"><i class="fa fa-sign-out"></i> Phase Value</label>
+            <input  id="node-input-phase_value21" type="number" required="required"   min="0" max="360" style="width: 30%;">
+        </div>
+    </div>
+    <div class="setPhase22" style="display: none;">
+        <div class="hr-div-setPhase">
+            <hr>
+            <span class="optional">Phase 22</span>
+            <hr>
+        </div>
+        <div class="form-row node-input-phase_value columm">
+            <label for="node-input-phase_value22"><i class="fa fa-sign-out"></i> Phase Value</label>
+            <input  id="node-input-phase_value22" type="number" required="required"   min="0" max="360" style="width: 30%;">
+        </div>
+    </div>
+    <div class="setPhase23" style="display: none;">
+        <div class="hr-div-setPhase">
+            <hr>
+            <span class="optional">Phase 23</span>
+            <hr>
+        </div>
+        <div class="form-row node-input-phase_value columm">
+            <label for="node-input-phase_value23"><i class="fa fa-sign-out"></i> Phase Value</label>
+            <input  id="node-input-phase_value23" type="number" required="required"   min="0" max="360" style="width: 30%;">
+        </div>
+    </div>
+    <div class="setPhase24" style="display: none;">
+        <div class="hr-div-setPhase">
+            <hr>
+            <span class="optional">Phase 24</span>
+            <hr>
+        </div>
+        <div class="form-row node-input-phase_value columm">
+            <label for="node-input-phase_value24"><i class="fa fa-sign-out"></i> Phase Value</label>
+            <input  id="node-input-phase_value24" type="number" required="required"   min="0" max="360" style="width: 30%;">
+        </div>
+    </div>
+    <!-- <div class="hr-div-setPhase">
         <hr>
         <span class="optional">Optional</span>
         <hr>
     </div>
-
     <div class="form-row columm">
         <label style="width: 50% !important;" for="node-input-name" ><i class="fa fa-tag"></i> Component Nickname</label>
         <input type="text" id="node-input-name" placeholder="Name">
-    </div>
-
+    </div> -->
 </script>
 
 <script type="text/html" data-help-name="setPhase">

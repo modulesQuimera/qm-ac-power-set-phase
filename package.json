@@ -1,6 +1,6 @@
 {
   "name": "qm-ac-power-set-phase-degrees",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "method for assigning the value for lag",
   "main": "setPhase.js",
   "scripts": {

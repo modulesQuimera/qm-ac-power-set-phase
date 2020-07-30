@@ -1,16 +1,69 @@
 module.exports = function(RED) {
 
-    "use strict";
-    // var serialPool = require("../../serial-template/serial")
     var mapeamentoNode;
+
+    function multipleSetPhase(self, file, slot, currentMode){
+        for(var t=0; t<self.qtdSetPhase; t++){
+            var command_n={
+                type: "AC_power_source_virtual_V1_0",
+                slot: parseInt(self.slot),
+                method: "set_phase",
+                phase_value: parseInt(self.phase_value_n[t]),
+                get_output: {},
+                compare: {}
+            }
+            if(!(slot === "begin" || slot === "end")){
+                if(currentMode == "test"){
+                    file.slots[slot].jig_test.push(command_n);
+                }
+                else{
+                    file.slots[slot].jig_error.push(command_n);
+                }
+            }
+            else{
+                if(slot === "begin"){
+                    file.slots[0].jig_test.push(command_n);
+                }
+                else{
+                    file.slots[3].jig_test.push(command_n);
+                }
+            }
+        }
+        return file;
+    }
+
     function setPhaseNode(config) {
         RED.nodes.createNode(this, config);
-        this.serial = config.serial;
-        this.serialConfig = RED.nodes.getNode(this.serial);
-        this.mapeamento = config.mapeamento;
         this.slot = config.slot;
         this.phase_value = config.phase_value;
-        this.val = config.val;
+
+        this.qtdSetPhase = config.qtdSetPhase;
+        this.phase_value_n = [];
+        this.phase_value_n.push(config.phase_value1);
+        this.phase_value_n.push(config.phase_value2);
+        this.phase_value_n.push(config.phase_value3);
+        this.phase_value_n.push(config.phase_value4);
+        this.phase_value_n.push(config.phase_value5);
+        this.phase_value_n.push(config.phase_value6);
+        this.phase_value_n.push(config.phase_value7);
+        this.phase_value_n.push(config.phase_value8);
+        this.phase_value_n.push(config.phase_value9);
+        this.phase_value_n.push(config.phase_value10);
+        this.phase_value_n.push(config.phase_value11);
+        this.phase_value_n.push(config.phase_value12);
+        this.phase_value_n.push(config.phase_value13);
+        this.phase_value_n.push(config.phase_value14);
+        this.phase_value_n.push(config.phase_value15);
+        this.phase_value_n.push(config.phase_value16);
+        this.phase_value_n.push(config.phase_value17);
+        this.phase_value_n.push(config.phase_value18);
+        this.phase_value_n.push(config.phase_value19);
+        this.phase_value_n.push(config.phase_value20);
+        this.phase_value_n.push(config.phase_value21);
+        this.phase_value_n.push(config.phase_value22);
+        this.phase_value_n.push(config.phase_value23);
+        this.phase_value_n.push(config.phase_value24);
+
         var node = this;
         mapeamentoNode = RED.nodes.getNode(this.mapeamento);
 
@@ -32,63 +85,27 @@ module.exports = function(RED) {
             if(!(slot === "begin" || slot === "end")){
                 if(currentMode == "test"){
                     file.slots[slot].jig_test.push(command);
+                    file = multipleSetPhase(node, file, slot, currentMode);
                 }
                 else{
                     file.slots[slot].jig_error.push(command);
+                    file = multipleSetPhase(node, file, slot, currentMode);
                 }
             }
             else{
                 if(slot === "begin"){
                     file.slots[0].jig_test.push(command);
-                    // file.begin.push(command);
+                    file = multipleSetPhase(node, file, slot, currentMode);
                 }
                 else{
                     file.slots[3].jig_test.push(command);
-                    // file.end.push(command);
+                    file = multipleSetPhase(node, file, slot, currentMode);
                 }
             }
             globalContext.set("exportFile", file);
             console.log(command);
             send(msg);
         });
-      
     }
-
     RED.nodes.registerType("setPhase", setPhaseNode);
-
-    // RED.httpAdmin.get("/setPhase",function(req,res) {
-    //     console.log(mapeamentoNode)
-    //     if(mapeamentoNode){
-    //         res.json([
-    //             {value:mapeamentoNode.valuePort1, label: mapeamentoNode.labelPort1, hasValue:false},
-    //             {value:mapeamentoNode.valuePort2, label: mapeamentoNode.labelPort2, hasValue:false},
-    //             {value:mapeamentoNode.valuePort3, label: mapeamentoNode.labelPort3, hasValue:false},
-    //             {value:mapeamentoNode.valuePort4, label: mapeamentoNode.labelPort4, hasValue:false},
-    //             {value:mapeamentoNode.valuePort5, label: mapeamentoNode.labelPort5, hasValue:false},
-    //             {value:mapeamentoNode.valuePort6, label: mapeamentoNode.labelPort6, hasValue:false},
-    //             {value:mapeamentoNode.valuePort7, label: mapeamentoNode.labelPort7, hasValue:false},
-    //             {value:mapeamentoNode.valuePort8, label: mapeamentoNode.labelPort8, hasValue:false},
-    //             {value:mapeamentoNode.valuePort9, label: mapeamentoNode.labelPort9, hasValue:false},
-    //             {value:mapeamentoNode.valuePort10, label: mapeamentoNode.labelPort10, hasValue:false},
-    //             {value:mapeamentoNode.valuePort11, label: mapeamentoNode.labelPort11, hasValue:false},
-    //             {value:mapeamentoNode.valuePort12, label: mapeamentoNode.labelPort12, hasValue:false},
-    //         ])
-    //     }
-    //     else{
-    //         res.json([
-    //             {label:"GPB0_CN", value: "0", hasValue:false},
-    //             {label:"GPB1_CN", value: "1", hasValue:false},
-    //             {label:"GPB2_CN", value: "2", hasValue:false},
-    //             {label:"GPB3_CN", value: "3", hasValue:false},
-    //             {label:"GPB4_CN", value: "4", hasValue:false},
-    //             {label:"GPB5_CN", value: "5", hasValue:false},
-    //             {label:"GPB6_CN", value: "6", hasValue:false},
-    //             {label:"GPB7_CN", value: "7", hasValue:false},
-    //             {label:"GPB8_CN", value: "8", hasValue:false},
-    //             {label:"GPB9_CN", value: "9", hasValue:false},
-    //             {label:"GPB10_CN", value: "10", hasValue:false},
-    //             {label:"GPB11_CN", value: "11", hasValue:false},
-    //         ])
-    //     }
-    // });
 };
