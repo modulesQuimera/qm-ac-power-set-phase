@@ -1,6 +1,6 @@
 {
   "name": "qm-ac-power-set-phase-degrees",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "method for assigning the value for lag",
   "main": "setPhase.js",
   "scripts": {
@@ -8,15 +8,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/modulesQuimera/qm-hub-acpower-set-phase.git"
+    "url": "git+https://github.com/modulesQuimera/qm-ac-power-set-phase.git"
   },
   "keywords": ["quimera", "hub", "JIG"],
   "author": "HUB-LSE",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/modulesQuimera/qm-hub-acpower-set-phase/issues"
+    "url": "https://github.com/modulesQuimera/qm-hub-ac-power-set-phase/issues"
   },
-  "homepage": "https://github.com/modulesQuimera/qm-hub-acpower-set-phase#readme",
+  "homepage": "https://github.com/modulesQuimera/qm-ac-power-set-phase#readme",
   "node-red": {
     "nodes": {
       "setPhase": "setPhase.js"
