@@ -14,7 +14,7 @@
   "author": "HUB-LSE",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/modulesQuimera/qm-hub-ac-power-set-phase/issues"
+    "url": "https://github.com/modulesQuimera/qm-ac-power-set-phase/issues"
   },
   "homepage": "https://github.com/modulesQuimera/qm-ac-power-set-phase#readme",
   "node-red": {
